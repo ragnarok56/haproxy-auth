@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+
+  haproxy:
+    build: 
+      context: .
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - ./auth.lua:/usr/local/etc/haproxy/auth.lua
+    ports:
+      - "80:80"
+      - "443:443"
+
+  auth_api:
+    build:
+      context: auth-api/.
+    command: api.py
+    volumes:
+      - ./auth-api:/app
+    ports:
+      - "8080:80"
